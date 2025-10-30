@@ -6,7 +6,7 @@ SubjectSieve is a Double-DQN controller for cloud gaming that jointly selects bi
 
 An small Jupyter Notebook file with all the necessary steps are included.
 
-#Modifing Sunshine:
+# Modifing Sunshine:
 
 Build (Windows, MSYS2 UCRT64)
 
