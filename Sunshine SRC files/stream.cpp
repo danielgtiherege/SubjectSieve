@@ -9,7 +9,7 @@
 #include <queue>
 #include <enet/enet.h>
 #include "metrics_exporter.h"
-//modificações linha 550 +-
+//modificações linha 550 e 1321 +-
 
 // lib includes
 #include <boost/endian/arithmetic.hpp>
@@ -1317,6 +1317,13 @@ namespace stream {
 
       std::string_view payload {(char *) packet->data(), packet->data_size()};
       std::vector<uint8_t> payload_with_replacements;
+
+      //Nosso capturador de frames
+	  metrics::log_video_frame(
+		packet->frame_index(),                 // frame_nr
+		session->video.peer.port(),            // porta UDP real
+		payload.size()                         // bytes exatos "on the wire" (antes do FEC)
+	  );
 
       // Apply replacements on the packet payload before performing any other operations.
       // We need to know the final frame size to calculate the last packet size, and we

@@ -30,7 +30,7 @@ extern "C" {
 #include "sync.h"
 #include "video.h"
 #include "metrics_exporter.h"
-
+// Modificações na linha 2257
 
 #ifdef _WIN32
 extern "C" {
@@ -2175,16 +2175,7 @@ namespace video {
 							nv->set_output_framerate(static_cast<uint32_t>(cap), 1u);
 						}
 					}
-					/*
-					double cap = std::clamp(*changed->cap_fps, 1.0, 480.0);
-					min_frametime_cap = std::chrono::duration<double, std::milli>{1000.0 / cap};
-					BOOST_LOG(info) << "[runtime] FPS cap -> " << cap << " (min_frametime " << min_frametime_cap.count() << " ms)";
 					
-					//Caso seja nvenc sync do cap com o encoder
-					if (auto* nv = dynamic_cast<nvenc_encode_session_t*>(session.get())) {
-						nv->set_output_framerate(static_cast<uint32_t>(cap), 1u);
-					}
-					*/
 				}
 				if (changed->fps_cap_mode) {
 					std::string m = *changed->fps_cap_mode;
@@ -2193,22 +2184,6 @@ namespace video {
 					BOOST_LOG(info) << "[runtime] FPS cap mode -> " << (fps_cap_sleep ? "sleep" : "drop");
 				}
 				
-				/*
-				 //OLD
-				 
-				 if (changed->fps) {
-					double new_fps = std::max(1.0, *changed->fps); // evitar div/0
-					runtime_min_fps_target = new_fps;
-					max_frametime = std::chrono::duration<double, std::milli>{1000.0 / runtime_min_fps_target};
-					BOOST_LOG(info) << "[runtime] min-FPS pacing -> " << runtime_min_fps_target
-									<< " (max_frametime " << max_frametime.count() << " ms)";
-				}
-				if (changed->bitrate_kbps) {
-					apply_bitrate_kbps(*changed->bitrate_kbps);
-					//forçar IDR para "fechar" um GOP com novos parâmetros
-					session->request_idr_frame();
-				}
-				*/
 			}
 		}
 
@@ -2279,7 +2254,7 @@ namespace video {
 		}
 
 		//Loga em arquivo o frame_nr
-		metrics::log_video_frame(frame_nr,/*stream_port*/ 0 /*se não tiver à mão*/,/*bytes_hint*/ 0 /*opcional*/);
+		//metrics::log_video_frame(frame_nr,/*stream_port*/ 0 /*se não tiver à mão*/,/*bytes_hint*/ 0 /*opcional*/);
 		
 		//agora deixamos o encode acontecer normalmente
       if (encode(frame_nr++, *session, packets, channel_data, frame_timestamp)) {
